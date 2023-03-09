@@ -91,17 +91,30 @@ func (g *TFGen) Uint32() uint32 {
 	} else if g.bitsIndex < 64 {
 		g.remake(g.key, 0, g.bits|(1<<g.bitsIndex), g.bitsIndex+1)
 	} else {
-		g.remake(mash64(g.key, math.MaxUint64, g.bits), 0, 0, 0)
+		newKey := mash64(g.key, math.MaxUint64, g.bits)
+		g.remake(newKey, 0, 0, 0)
 	}
 
 	return v
 }
 
+// Split creates a new generator that is independent from the original one.
+// The new generator can be safely and concurrently used by another goroutine.
 func (g *TFGen) Split() *TFGen {
 	if g.stale {
 		panic("invalid call of Split: you cannot use a stale generator")
 	}
-	panic("not implemented")
+
+	if g.bitsIndex == 64 {
+		newKey := mash64(g.key, g.count, g.bits)
+		sg := make(newKey, 0, 1, 1)
+		g.remake(newKey, 0, 0, 1)
+		return sg
+	} else {
+		sg := make(g.key, g.count, g.bits|(1<<g.bitsIndex), g.bitsIndex+1)
+		g.remake(g.key, g.count, g.bits, g.bitsIndex+1)
+		return sg
+	}
 }
 
 func (g *TFGen) Level() {
