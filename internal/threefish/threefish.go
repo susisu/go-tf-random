@@ -19,6 +19,9 @@ var r_256 [][]int = [][]int{
 	{32, 32},
 }
 
+// Threefish256EncryptBlock64 is an implementation of the Threefish-256 block cipher.
+// The original reference implementation could be found on the Skein website
+// (https://web.archive.org/web/20210401000151/http://www.skein-hash.info/).
 func Threefish256EncryptBlock64(key, block Uint64x4) Uint64x4 {
 	ks := []uint64{
 		key[0],
@@ -106,6 +109,8 @@ func Threefish256EncryptBlock64(key, block Uint64x4) Uint64x4 {
 	return []uint64{x0, x1, x2, x3}
 }
 
+// Threefish256EncryptBlock32 is a variant of Threefish256EncryptBlock64 that returns eight uint32
+// values.
 func Threefish256EncryptBlock32(key, block Uint64x4) Uint32x8 {
 	xs := Threefish256EncryptBlock64(key, block)
 	return []uint32{
