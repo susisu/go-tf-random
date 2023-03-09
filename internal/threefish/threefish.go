@@ -3,8 +3,8 @@ package threefish
 import "math/bits"
 
 const (
-	skein_256_state_words  uint   = 4
-	skein_256_rounds_total uint   = 72
+	skein_256_state_words  int    = 4
+	skein_256_rounds_total int    = 72
 	skein_ks_parity        uint64 = 0x1bd11bda_a9fc1a22
 )
 
@@ -33,8 +33,7 @@ func Threefish256EncryptBlock64(key, block Uint64x4) Uint64x4 {
 	x2 := block[2] + ks[2]
 	x3 := block[3] + ks[3]
 
-	var r uint
-	for r = 1; r <= skein_256_rounds_total/8; r++ {
+	for r := 1; r <= skein_256_rounds_total/8; r++ {
 		x0 += x1
 		x1 = bits.RotateLeft64(x1, r_256[0][0])
 		x1 ^= x0
