@@ -21,8 +21,7 @@ func initTFGen() *tf_random.TFGen {
 	return g
 }
 
-func TestTFGen_Uint32(t *testing.T) {
-	g := initTFGen()
+func testSnapshot(t *testing.T, g *tf_random.TFGen) {
 	sampleCount := 100
 	seq := make([]uint32, 0, sampleCount)
 	for i := 0; i < sampleCount; i++ {
@@ -31,20 +30,14 @@ func TestTFGen_Uint32(t *testing.T) {
 	snaps.MatchSnapshot(t, seq)
 }
 
+func TestTFGen_Uint32(t *testing.T) {
+	g := initTFGen()
+	testSnapshot(t, g)
+}
+
 func TestTFGen_Split(t *testing.T) {
 	g1 := initTFGen()
 	g2 := g1.Split()
-	sampleCount := 100
-
-	seq1 := make([]uint32, 0, sampleCount)
-	for i := 0; i < sampleCount; i++ {
-		seq1 = append(seq1, g1.Uint32())
-	}
-	snaps.MatchSnapshot(t, seq1)
-
-	seq2 := make([]uint32, 0, sampleCount)
-	for i := 0; i < sampleCount; i++ {
-		seq2 = append(seq2, g2.Uint32())
-	}
-	snaps.MatchSnapshot(t, seq2)
+	testSnapshot(t, g1)
+	testSnapshot(t, g2)
 }
