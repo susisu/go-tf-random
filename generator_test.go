@@ -7,13 +7,22 @@ import (
 	tf_random "github.com/susisu/go-tf-random"
 )
 
-func TestTFGen_Uint32(t *testing.T) {
+func initTFGen() *tf_random.TFGen {
 	g := tf_random.NewTFGen(
 		0x00000000_00000000,
 		0x89abcdef_01234567,
 		0x01234567_89abcdef,
 		0xffffffff_ffffffff,
 	)
+	initCount := 100
+	for i := 0; i < initCount; i++ {
+		g.Uint32()
+	}
+	return g
+}
+
+func TestTFGen_Uint32(t *testing.T) {
+	g := initTFGen()
 	sampleCount := 100
 	seq := make([]uint32, 0, sampleCount)
 	for i := 0; i < sampleCount; i++ {
@@ -23,12 +32,7 @@ func TestTFGen_Uint32(t *testing.T) {
 }
 
 func TestTFGen_Split(t *testing.T) {
-	g1 := tf_random.NewTFGen(
-		0x00000000_00000000,
-		0x89abcdef_01234567,
-		0x01234567_89abcdef,
-		0xffffffff_ffffffff,
-	)
+	g1 := initTFGen()
 	g2 := g1.Split()
 	sampleCount := 100
 
