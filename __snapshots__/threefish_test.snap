@@ -1,8 +1,0 @@
-
-[TestThreefish256EncryptBlock32 - 1]
-tf_random.uint32x8{0x1fa513d, 0xb1451b1a, 0x587b6f21, 0xe58ebd5b, 0xa5ed40f0, 0x5b2bb82f, 0x4b8671bf, 0x18e5b514}
----
-
-[TestThreefish256EncryptBlock64 - 1]
-tf_random.uint64x4{0x1fa513db1451b1a, 0x587b6f21e58ebd5b, 0xa5ed40f05b2bb82f, 0x4b8671bf18e5b514}
----

@@ -1,4 +1,4 @@
-package tf_random
+package threefish
 
 import "math/bits"
 
@@ -19,7 +19,7 @@ var r_256 [][]int = [][]int{
 	{32, 32},
 }
 
-func threefish256EncryptBlock64(key, block uint64x4) uint64x4 {
+func Threefish256EncryptBlock64(key, block Uint64x4) Uint64x4 {
 	ks := []uint64{
 		key[0],
 		key[1],
@@ -107,8 +107,8 @@ func threefish256EncryptBlock64(key, block uint64x4) uint64x4 {
 	return []uint64{x0, x1, x2, x3}
 }
 
-func threefish256EncryptBlock32(key, block uint64x4) uint32x8 {
-	xs := threefish256EncryptBlock64(key, block)
+func Threefish256EncryptBlock32(key, block Uint64x4) Uint32x8 {
+	xs := Threefish256EncryptBlock64(key, block)
 	return []uint32{
 		uint32(xs[0] >> 32),
 		uint32(xs[0]),

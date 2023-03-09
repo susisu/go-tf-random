@@ -1,4 +1,4 @@
-package tf_random
+package threefish
 
 import (
 	"os"
@@ -26,7 +26,7 @@ func TestThreefish256EncryptBlock64(t *testing.T) {
 		0x01234567_89abcdef,
 		0xffffffff_ffffffff,
 	}
-	out := threefish256EncryptBlock64(key, block)
+	out := Threefish256EncryptBlock64(key, block)
 	snaps.MatchSnapshot(t, out)
 }
 
@@ -43,6 +43,6 @@ func TestThreefish256EncryptBlock32(t *testing.T) {
 		0x01234567_89abcdef,
 		0xffffffff_ffffffff,
 	}
-	out := threefish256EncryptBlock32(key, block)
+	out := Threefish256EncryptBlock32(key, block)
 	snaps.MatchSnapshot(t, out)
 }

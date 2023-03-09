@@ -2,14 +2,15 @@ package tf_random
 
 import (
 	random "github.com/susisu/go-random/uint32"
+	tf "github.com/susisu/go-tf-random/internal/threefish"
 )
 
 type TFGen struct {
-	key        uint64x4
+	key        tf.Uint64x4
 	count      uint64
 	bits       uint64
 	bitsIndex  uint
-	block      uint32x8
+	block      tf.Uint32x8
 	blockIndex uint
 	stale      bool
 }
