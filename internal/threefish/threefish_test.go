@@ -1,10 +1,11 @@
-package threefish
+package threefish_test
 
 import (
 	"os"
 	"testing"
 
 	"github.com/gkampitakis/go-snaps/snaps"
+	tf "github.com/susisu/go-tf-random/internal/threefish"
 )
 
 func TestMain(t *testing.M) {
@@ -26,7 +27,7 @@ func TestThreefish256EncryptBlock64(t *testing.T) {
 		0x01234567_89abcdef,
 		0xffffffff_ffffffff,
 	}
-	out := Threefish256EncryptBlock64(key, block)
+	out := tf.Threefish256EncryptBlock64(key, block)
 	snaps.MatchSnapshot(t, out)
 }
 
@@ -43,6 +44,6 @@ func TestThreefish256EncryptBlock32(t *testing.T) {
 		0x01234567_89abcdef,
 		0xffffffff_ffffffff,
 	}
-	out := Threefish256EncryptBlock32(key, block)
+	out := tf.Threefish256EncryptBlock32(key, block)
 	snaps.MatchSnapshot(t, out)
 }
