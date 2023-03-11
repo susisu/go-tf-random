@@ -64,14 +64,23 @@ func TestTFGen_Split_snapshot(t *testing.T) {
 func TestTFGen_Level_snapshot(t *testing.T) {
 	g1 := initTFGen()
 	progressTFGen(g1, 100)
-	g2 := g1.SplitN(32, 0xff)
+	g2 := g1.SplitN(32, 256)
 	g2.Level()
 	testSnapshot(t, g2)
+}
+
+func TestTFGen_SplitN_stale(t *testing.T) {
+	g := initTFGen()
+	_ = g.SplitN(32, 256)
+	assert.Panics(t, func() { g.Uint32() })
+	assert.Panics(t, func() { _ = g.Split() })
+	assert.Panics(t, func() { g.Level() })
+	assert.NotPanics(t, func() { _ = g.SplitN(32, 512) })
 }
 
 func TestTFGen_SplitN_snapshot(t *testing.T) {
 	g1 := initTFGen()
 	progressTFGen(g1, 100)
-	g2 := g1.SplitN(32, 0xff)
+	g2 := g1.SplitN(32, 256)
 	testSnapshot(t, g2)
 }
