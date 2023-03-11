@@ -115,6 +115,11 @@ func TestTFGen_SplitN(t *testing.T) {
 		assert.NotPanics(t, func() { _ = g.SplitN(32, 512) })
 	})
 
+	t.Run("panics if i >= 2**nbits", func(t *testing.T) {
+		g := initTFGen()
+		assert.Panics(t, func() { _ = g.SplitN(32, 1<<32) })
+	})
+
 	t.Run("snapshot", func(t *testing.T) {
 		g1 := initTFGen()
 		progressTFGen(g1, 100)

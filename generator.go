@@ -147,10 +147,13 @@ func (g *TFGen) Level() {
 // SplitN splits the generator into 2**nbits new generators and returns the i-th of them.
 // After calling this method, the original generator is marked as "stale" and can no longer be used,
 // except for calling SplitN to obtain other child generators.
-// It panics if nbits is greater than 32.
+// It panics if nbits is greater than 32, or i is greater than or equal to 2**nbits.
 func (g *TFGen) SplitN(nbits, i uint) *TFGen {
 	if nbits > 32 {
 		panic("invalid argument to SplitN: nbits must be less than or equal to 32")
+	}
+	if i >= 1<<nbits {
+		panic("invalid argument to SplitN: i must be less than 2**nbits")
 	}
 
 	g.stale = true
