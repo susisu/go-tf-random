@@ -21,11 +21,13 @@ func initTFGen() *tf_random.TFGen {
 		0x01234567_89abcdef,
 		0xffffffff_ffffffff,
 	)
-	initCount := 100
-	for i := 0; i < initCount; i++ {
+	return g
+}
+
+func progressTFGen(g *tf_random.TFGen, n int) {
+	for i := 0; i < n; i++ {
 		g.Uint32()
 	}
-	return g
 }
 
 func testSnapshot(t *testing.T, g *tf_random.TFGen) {
@@ -39,24 +41,29 @@ func testSnapshot(t *testing.T, g *tf_random.TFGen) {
 
 func TestTFGen_Uint32_snapshot(t *testing.T) {
 	g := initTFGen()
+	progressTFGen(g, 100)
 	testSnapshot(t, g)
 }
 
 func TestTFGen_Split_snapshot(t *testing.T) {
 	g1 := initTFGen()
+	progressTFGen(g1, 100)
 	g2 := g1.Split()
 	testSnapshot(t, g1)
 	testSnapshot(t, g2)
 }
 
 func TestTFGen_Level_snapshot(t *testing.T) {
-	g := initTFGen()
-	g.Level()
-	testSnapshot(t, g)
+	g1 := initTFGen()
+	progressTFGen(g1, 100)
+	g2 := g1.SplitN(32, 0xff)
+	g2.Level()
+	testSnapshot(t, g2)
 }
 
 func TestTFGen_SplitN_snapshot(t *testing.T) {
 	g1 := initTFGen()
-	g2 := g1.SplitN(16, 42)
+	progressTFGen(g1, 100)
+	g2 := g1.SplitN(32, 0xff)
 	testSnapshot(t, g2)
 }
