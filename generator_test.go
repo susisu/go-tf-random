@@ -1,11 +1,18 @@
 package tf_random_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/gkampitakis/go-snaps/snaps"
 	tf_random "github.com/susisu/go-tf-random"
 )
+
+func TestMain(t *testing.M) {
+	v := t.Run()
+	snaps.Clean(t)
+	os.Exit(v)
+}
 
 func initTFGen() *tf_random.TFGen {
 	g := tf_random.NewTFGen(
@@ -22,20 +29,20 @@ func initTFGen() *tf_random.TFGen {
 }
 
 func testSnapshot(t *testing.T, g *tf_random.TFGen) {
-	sampleCount := 100
-	seq := make([]uint32, 0, sampleCount)
-	for i := 0; i < sampleCount; i++ {
+	numSamples := 100
+	seq := make([]uint32, 0, numSamples)
+	for i := 0; i < numSamples; i++ {
 		seq = append(seq, g.Uint32())
 	}
 	snaps.MatchSnapshot(t, seq)
 }
 
-func TestTFGen_Uint32(t *testing.T) {
+func TestTFGen_Uint32_snapshot(t *testing.T) {
 	g := initTFGen()
 	testSnapshot(t, g)
 }
 
-func TestTFGen_Split(t *testing.T) {
+func TestTFGen_Split_snapshot(t *testing.T) {
 	g1 := initTFGen()
 	g2 := g1.Split()
 	testSnapshot(t, g1)
