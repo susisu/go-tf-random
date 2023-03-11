@@ -85,6 +85,23 @@ func TestTFGen_Uint32(t *testing.T) {
 	})
 }
 
+func BenchmarkTFGen_Uint32(b *testing.B) {
+	g := initTFGen()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = g.Uint32()
+	}
+}
+
+func BenchmarkMathRand(b *testing.B) {
+	s := rand.NewSource(0xc0ffee)
+	r := rand.New(s)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = r.Uint32()
+	}
+}
+
 func TestTFGen_Split(t *testing.T) {
 	t.Run("snapshot", func(t *testing.T) {
 		g1 := initTFGen()
