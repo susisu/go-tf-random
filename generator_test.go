@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/gkampitakis/go-snaps/snaps"
+	"github.com/stretchr/testify/assert"
 	tf_random "github.com/susisu/go-tf-random"
 )
 
@@ -37,6 +38,13 @@ func testSnapshot(t *testing.T, g *tf_random.TFGen) {
 		seq = append(seq, g.Uint32())
 	}
 	snaps.MatchSnapshot(t, seq)
+}
+
+func TestTFGen_Clone(t *testing.T) {
+	g1 := initTFGen()
+	progressTFGen(g1, 100)
+	g2 := g1.Clone()
+	assert.Equal(t, g1.Uint32(), g2.Uint32())
 }
 
 func TestTFGen_Uint32_snapshot(t *testing.T) {

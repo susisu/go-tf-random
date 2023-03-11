@@ -9,7 +9,7 @@ import (
 
 // TFGen is a pseudorandom number generator implementation that utilizes Threefish block cipher.
 // It also has the capability to be split into multiple independent generators, which can be safely
-// and concurrently used by different goroutines.
+// passed to other goroutines.
 type TFGen struct {
 	key        tf.Uint64x4
 	count      uint64
@@ -73,6 +73,19 @@ func NewTFGen(a, b, c, d uint64) *TFGen {
 	return make(key, 0, 0, 0)
 }
 
+// Clone creates a copy of the generator.
+func (g *TFGen) Clone() *TFGen {
+	return &TFGen{
+		key:        g.key,
+		count:      g.count,
+		bits:       g.bits,
+		bitsIndex:  g.bitsIndex,
+		block:      g.block,
+		blockIndex: g.blockIndex,
+		stale:      g.stale,
+	}
+}
+
 // Uint32 generates a random uint32 value.
 func (g *TFGen) Uint32() uint32 {
 	if g.stale {
@@ -99,7 +112,7 @@ func (g *TFGen) Uint32() uint32 {
 }
 
 // Split creates a new generator that is independent from the original one.
-// The new generator can be safely and concurrently used by another goroutine.
+// The new generator can be safely passed to another goroutine.
 func (g *TFGen) Split() *TFGen {
 	if g.stale {
 		panic("invalid call of Split: you cannot use a stale generator")
