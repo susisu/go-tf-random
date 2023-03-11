@@ -1,8 +1,11 @@
 package tf_random_test
 
 import (
+	"math"
+	"math/rand"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/gkampitakis/go-snaps/snaps"
 	"github.com/stretchr/testify/assert"
@@ -52,6 +55,33 @@ func TestTFGen_Uint32(t *testing.T) {
 		g := initTFGen()
 		progressTFGen(g, 100)
 		testSnapshot(t, g)
+	})
+
+	t.Run("distribution", func(t *testing.T) {
+		testRng := rand.New(rand.NewSource(time.Now().UnixNano()))
+		seed := []uint64{testRng.Uint64(), testRng.Uint64(), testRng.Uint64(), testRng.Uint64()}
+		g := tf_random.NewTFGen(seed[0], seed[1], seed[2], seed[3])
+		numBins := 8
+		numSamplesPerBin := 2000
+		numSamples := numBins * numSamplesPerBin
+
+		histogram := make([]int, numBins)
+		for i := 0; i < numSamples; i++ {
+			v := g.Uint32()
+
+			nv := float64(v) / float64(math.MaxUint32)
+			i := int(math.Floor(nv * float64(numBins)))
+			if i == numBins {
+				i = numBins - 1
+			}
+			histogram[i]++
+		}
+
+		delta := 4 * math.Sqrt(float64(numSamplesPerBin)*(1.0-1.0/float64(numBins)))
+		for i, c := range histogram {
+			assert.InDeltaf(t, numSamplesPerBin, c, delta,
+				"histogram(%d) = %d should be close to %d, (seed = %v)", i, c, numSamplesPerBin, seed)
+		}
 	})
 }
 
