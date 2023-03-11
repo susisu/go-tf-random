@@ -48,3 +48,15 @@ func TestTFGen_Split_snapshot(t *testing.T) {
 	testSnapshot(t, g1)
 	testSnapshot(t, g2)
 }
+
+func TestTFGen_Level_snapshot(t *testing.T) {
+	g := initTFGen()
+	g.Level()
+	testSnapshot(t, g)
+}
+
+func TestTFGen_SplitN_snapshot(t *testing.T) {
+	g1 := initTFGen()
+	g2 := g1.SplitN(16, 42)
+	testSnapshot(t, g2)
+}

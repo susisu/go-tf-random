@@ -83,7 +83,7 @@ func (g *TFGen) Uint32() uint32 {
 
 	if g.count < math.MaxUint64-1 {
 		if g.blockIndex == 8-1 {
-			// cannot read more from `block`
+			// cannot read from `block` anymore
 			g.remake(g.key, g.count+1, g.bits, g.bitsIndex)
 		} else {
 			g.renew(g.key, g.count+1, g.bits, g.bitsIndex, g.block, g.blockIndex+1)
@@ -117,16 +117,38 @@ func (g *TFGen) Split() *TFGen {
 	}
 }
 
+// Level flushes the internal state of the generator.
+// Calling this method before performing multiple `splitn` operations may reduce the total number of
+// computations.
 func (g *TFGen) Level() {
 	if g.stale {
 		panic("invalid call of Level: you cannot use a stale generator")
 	}
-	panic("not implemented")
+
+	if g.bitsIndex+40 > 64 {
+		newKey := mash64(g.key, g.count, g.bits)
+		g.remake(newKey, 0, 0, 0)
+	}
 }
 
+// SplitN splits the generator into 2**nbits new generators and returns the i-th of them.
+// After calling this method, the original generator is marked as "stale" and can no longer be used,
+// except for calling SplitN to obtain other child generators.
+// It panics if nbits is greater than 32.
 func (g *TFGen) SplitN(nbits, i uint) *TFGen {
+	if nbits > 32 {
+		panic("invalid argument to SplitN: nbits must be less than or equal to 32")
+	}
+
 	g.stale = true
-	panic("not implemented")
+
+	b := uint64((math.MaxUint32 >> (32 - nbits)) & i)
+	if g.bitsIndex+nbits > 64 {
+		newKey := mash64(g.key, g.count, g.bits|(b<<g.bitsIndex))
+		return make(newKey, 0, b>>(64-g.bitsIndex), nbits-(64-g.bitsIndex))
+	} else {
+		return make(g.key, g.count, g.bits|(b<<g.bitsIndex), g.bitsIndex+nbits)
+	}
 }
 
 func mash64(key tf.Uint64x4, count, bits uint64) tf.Uint64x4 {
