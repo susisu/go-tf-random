@@ -3,21 +3,28 @@ package threefish
 import "math/bits"
 
 const (
-	skein_256_state_words  int    = 4
-	skein_256_rounds_total int    = 72
-	skein_ks_parity        uint64 = 0x1bd11bda_a9fc1a22
-)
+	skein_256_state_words  int = 4
+	skein_256_rounds_total int = 72
 
-var r_256 [][]int = [][]int{
-	{14, 16},
-	{52, 57},
-	{23, 40},
-	{5, 37},
-	{25, 33},
-	{46, 12},
-	{58, 22},
-	{32, 32},
-}
+	skein_ks_parity uint64 = 0x1bd11bda_a9fc1a22
+
+	r_256_0_0 = 14
+	r_256_0_1 = 16
+	r_256_1_0 = 52
+	r_256_1_1 = 57
+	r_256_2_0 = 23
+	r_256_2_1 = 40
+	r_256_3_0 = 5
+	r_256_3_1 = 37
+	r_256_4_0 = 25
+	r_256_4_1 = 33
+	r_256_5_0 = 46
+	r_256_5_1 = 12
+	r_256_6_0 = 58
+	r_256_6_1 = 22
+	r_256_7_0 = 32
+	r_256_7_1 = 32
+)
 
 // Threefish256EncryptBlock64 is an implementation of the Threefish-256 block cipher.
 // The original reference implementation could be found on the Skein website
@@ -38,31 +45,31 @@ func Threefish256EncryptBlock64(key, block Uint64x4) Uint64x4 {
 
 	for r := 1; r <= skein_256_rounds_total/8; r++ {
 		x0 += x1
-		x1 = bits.RotateLeft64(x1, r_256[0][0])
+		x1 = bits.RotateLeft64(x1, r_256_0_0)
 		x1 ^= x0
 		x2 += x3
-		x3 = bits.RotateLeft64(x3, r_256[0][1])
+		x3 = bits.RotateLeft64(x3, r_256_0_1)
 		x3 ^= x2
 
 		x0 += x3
-		x3 = bits.RotateLeft64(x3, r_256[1][0])
+		x3 = bits.RotateLeft64(x3, r_256_1_0)
 		x3 ^= x0
 		x2 += x1
-		x1 = bits.RotateLeft64(x1, r_256[1][1])
+		x1 = bits.RotateLeft64(x1, r_256_1_1)
 		x1 ^= x2
 
 		x0 += x1
-		x1 = bits.RotateLeft64(x1, r_256[2][0])
+		x1 = bits.RotateLeft64(x1, r_256_2_0)
 		x1 ^= x0
 		x2 += x3
-		x3 = bits.RotateLeft64(x3, r_256[2][1])
+		x3 = bits.RotateLeft64(x3, r_256_2_1)
 		x3 ^= x2
 
 		x0 += x3
-		x3 = bits.RotateLeft64(x3, r_256[3][0])
+		x3 = bits.RotateLeft64(x3, r_256_3_0)
 		x3 ^= x0
 		x2 += x1
-		x1 = bits.RotateLeft64(x1, r_256[3][1])
+		x1 = bits.RotateLeft64(x1, r_256_3_1)
 		x1 ^= x2
 
 		x0 += ks[(2*r-1)%(skein_256_state_words+1)]
@@ -72,31 +79,31 @@ func Threefish256EncryptBlock64(key, block Uint64x4) Uint64x4 {
 		x3 += uint64(2*r - 1)
 
 		x0 += x1
-		x1 = bits.RotateLeft64(x1, r_256[4][0])
+		x1 = bits.RotateLeft64(x1, r_256_4_0)
 		x1 ^= x0
 		x2 += x3
-		x3 = bits.RotateLeft64(x3, r_256[4][1])
+		x3 = bits.RotateLeft64(x3, r_256_4_1)
 		x3 ^= x2
 
 		x0 += x3
-		x3 = bits.RotateLeft64(x3, r_256[5][0])
+		x3 = bits.RotateLeft64(x3, r_256_5_0)
 		x3 ^= x0
 		x2 += x1
-		x1 = bits.RotateLeft64(x1, r_256[5][1])
+		x1 = bits.RotateLeft64(x1, r_256_5_1)
 		x1 ^= x2
 
 		x0 += x1
-		x1 = bits.RotateLeft64(x1, r_256[6][0])
+		x1 = bits.RotateLeft64(x1, r_256_6_0)
 		x1 ^= x0
 		x2 += x3
-		x3 = bits.RotateLeft64(x3, r_256[6][1])
+		x3 = bits.RotateLeft64(x3, r_256_6_1)
 		x3 ^= x2
 
 		x0 += x3
-		x3 = bits.RotateLeft64(x3, r_256[7][0])
+		x3 = bits.RotateLeft64(x3, r_256_7_0)
 		x3 ^= x0
 		x2 += x1
-		x1 = bits.RotateLeft64(x1, r_256[7][1])
+		x1 = bits.RotateLeft64(x1, r_256_7_1)
 		x1 ^= x2
 
 		x0 += ks[(2*r)%(skein_256_state_words+1)]
