@@ -3,10 +3,10 @@ package threefish
 import "math/bits"
 
 const (
-	skein_256_state_words  int = 4
-	skein_256_rounds_total int = 72
+	skein_256_state_words  = 4
+	skein_256_rounds_total = 72
 
-	skein_ks_parity uint64 = 0x1bd11bda_a9fc1a22
+	skein_ks_parity = 0x1bd11bda_a9fc1a22
 
 	r_256_0_0 = 14
 	r_256_0_1 = 16
