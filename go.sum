@@ -28,8 +28,8 @@ github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.2 h1:+h33VjcLVPDHtOdpUCuF+7gSuG3yGIftsP1YvFihtJ8=
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
-github.com/susisu/go-random v0.0.0-20230308162723-8f11907fcc28 h1:hWxoScPtZWfwmWpgo5fLhL/nyMdrLPFEBahhuXkwsXc=
-github.com/susisu/go-random v0.0.0-20230308162723-8f11907fcc28/go.mod h1:XnS0fR2MmUywGlXWr9LhGoIzj8FepTQ6mQ/FsCUZQZk=
+github.com/susisu/go-random v0.1.0 h1:GVbpw9xFZhg2OwaYWaZah3DeZBnJ3ylVFFfY2oLTEPI=
+github.com/susisu/go-random v0.1.0/go.mod h1:XnS0fR2MmUywGlXWr9LhGoIzj8FepTQ6mQ/FsCUZQZk=
 github.com/tidwall/gjson v1.14.2/go.mod h1:/wbyibRr2FHMks5tjHJ5F8dMZh3AcwJEMf5vlfC0lxk=
 github.com/tidwall/gjson v1.14.3 h1:9jvXn7olKEHU1S9vwoMGliaT8jq1vJ7IH/n9zD9Dnlw=
 github.com/tidwall/gjson v1.14.3/go.mod h1:/wbyibRr2FHMks5tjHJ5F8dMZh3AcwJEMf5vlfC0lxk=

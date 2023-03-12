@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/gkampitakis/go-snaps v0.4.2
 	github.com/stretchr/testify v1.8.2
-	github.com/susisu/go-random v0.0.0-20230308162723-8f11907fcc28
+	github.com/susisu/go-random v0.1.0
 )
 
 require (
